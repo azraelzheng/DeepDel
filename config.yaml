@@ -1,0 +1,26 @@
+scan:
+  paths:
+    - "%TEMP%"
+    - "%APPDATA%"
+    - "%LOCALAPPDATA%"
+    - "%PROGRAMDATA%"
+  min_size_mb: 1
+  exclude:
+    - "**/.git/**"
+    - "**/.svn/**"
+    - "**/OneDrive/**"
+
+ai:
+  enabled: true
+  provider: glm
+  model: glm-4-flash
+  api_key: ""
+  trigger_confidence: 0.6
+  timeout: 10
+
+delete:
+  use_recycle_bin: true
+  create_restore_point: false
+
+performance:
+  max_workers: 4
