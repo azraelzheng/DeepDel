@@ -344,9 +344,16 @@ class MainWindow:
 
     def _add_scan_result(self, result: ClassificationResult):
         """Add a scan result to the view (called on main thread)."""
-        # This would update the scan view incrementally
-        # For now, we'll batch update in _scan_complete
-        pass
+        # Get the size for this result
+        size_bytes = 0
+        for sr in self._scan_results:
+            if sr.path == result.path:
+                size_bytes = sr.size_bytes
+                break
+
+        # Add to scan view
+        self.scan_view.add_result(result, size_bytes)
+        self._update_statistics()
 
     def _scan_complete(self):
         """Handle scan completion."""

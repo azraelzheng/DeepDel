@@ -315,6 +315,40 @@ class ScanView(ttk.Frame):
         )
         self._tree_items[result.path] = item_id
 
+    def add_result(self, result: ClassificationResult, size_bytes: int = 0):
+        """
+        Add a single result to the view incrementally.
+
+        Args:
+            result: ClassificationResult to add
+            size_bytes: Size of the folder in bytes
+        """
+        # Store result and size
+        self._results[result.path] = result
+        self._sizes[result.path] = size_bytes
+
+        # Check if group for this risk level exists
+        risk_level = result.risk_level
+        if risk_level not in self._group_items:
+            # Create group
+            count = sum(1 for r in self._results.values() if r.risk_level == risk_level)
+            config = self.RISK_CONFIG[risk_level]
+            group_id = self.tree.insert(
+                "",
+                tk.END,
+                text=f"{config['icon']} {config['label']} (0/{count})",
+                values=("", "", "", ""),
+                tags=("group",),
+                open=True,
+            )
+            self._group_items[risk_level] = group_id
+
+        # Add item to group
+        self._add_result_item(result)
+
+        # Update group counts
+        self._update_group_counts()
+
     def clear(self):
         """Clear all items from the tree."""
         # Clear tree

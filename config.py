@@ -93,6 +93,44 @@ class Config:
             expanded_paths.append(expanded)
         return expanded_paths
 
+    def save_to_file(self, filepath: str) -> None:
+        """
+        Save configuration to a YAML file.
+
+        Args:
+            filepath: Path to save the YAML configuration file.
+        """
+        data = {
+            'scan': {
+                'paths': self.scan_paths,
+                'min_size_mb': self.scan_min_size_mb,
+                'exclude': self.scan_exclude,
+            },
+            'ai': {
+                'enabled': self.ai_enabled,
+                'provider': self.ai_provider,
+                'model': self.ai_model,
+                'api_key': self.ai_api_key,
+                'trigger_confidence': self.ai_trigger_confidence,
+                'timeout': self.ai_timeout,
+            },
+            'delete': {
+                'use_recycle_bin': self.delete_use_recycle_bin,
+                'create_restore_point': self.delete_create_restore_point,
+            },
+            'performance': {
+                'max_workers': self.performance_max_workers,
+            },
+        }
+
+        # Ensure directory exists
+        dir_path = os.path.dirname(filepath)
+        if dir_path and not os.path.exists(dir_path):
+            os.makedirs(dir_path, exist_ok=True)
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
+
 
 # Global singleton instance
 _config_instance: Optional[Config] = None
