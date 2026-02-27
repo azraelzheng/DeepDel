@@ -283,20 +283,20 @@ class SettingsDialog(tk.Toplevel):
             # Scan settings
             self.config.scan_paths = self._get_scan_paths()
             self.config.scan_exclude = self._get_exclude_patterns()
-            self.config.scan_min_size_mb = int(self.min_size_var.get())
+            self.config.scan_min_size_mb = int(float(self.min_size_var.get()))
 
             # AI settings
             self.config.ai_enabled = self.ai_enabled_var.get()
             self.config.ai_model = self.ai_model_var.get()
-            self.config.ai_trigger_confidence = self.ai_confidence_var.get()
-            self.config.ai_timeout = int(self.ai_timeout_var.get())
+            self.config.ai_trigger_confidence = float(self.ai_confidence_var.get())
+            self.config.ai_timeout = int(float(self.ai_timeout_var.get()))
 
             # Delete settings
             self.config.delete_use_recycle_bin = self.use_recycle_bin_var.get()
             self.config.delete_create_restore_point = self.create_restore_point_var.get()
 
             # Performance settings
-            self.config.performance_max_workers = int(self.max_workers_var.get())
+            self.config.performance_max_workers = int(float(self.max_workers_var.get()))
 
             return True
         except ValueError as e:
