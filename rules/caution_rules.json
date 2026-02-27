@@ -1,0 +1,25 @@
+{
+  "user_data_indicators": [
+    {"pattern": "**\\*.db", "description": "数据库文件"},
+    {"pattern": "**\\*.sqlite", "description": "SQLite 数据库"},
+    {"pattern": "**\\save*", "description": "游戏存档"},
+    {"pattern": "**\\Save*", "description": "存档目录"},
+    {"pattern": "**\\SavedGames\\*", "description": "保存的游戏"},
+    {"pattern": "**\\saves\\*", "description": "存档文件夹"}
+  ],
+  "config_indicators": [
+    {"pattern": "**\\settings.json", "description": "设置文件"},
+    {"pattern": "**\\config.json", "description": "配置文件"},
+    {"pattern": "**\\config.ini", "description": "INI 配置"},
+    {"pattern": "**\\preferences.json", "description": "首选项"}
+  ],
+  "protected_folders": [
+    "Desktop",
+    "Documents",
+    "Downloads",
+    "Pictures",
+    "Music",
+    "Videos"
+  ],
+  "keep_if_running": true
+}

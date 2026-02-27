@@ -1,0 +1,25 @@
+{
+  "uninstalled_residuals": {
+    "description": "已卸载程序的残留",
+    "check_registry": true,
+    "paths": [
+      "%APPDATA%\\*",
+      "%LOCALAPPDATA%\\*"
+    ]
+  },
+  "empty_folders": {
+    "enabled": true,
+    "description": "空文件夹",
+    "exclude_patterns": [
+      "**/.git/*",
+      "**/.svn/*",
+      "**/__pycache__"
+    ]
+  },
+  "long_unused": {
+    "enabled": true,
+    "description": "长期未使用的文件",
+    "days_threshold": 180,
+    "exclude_types": [".doc", ".docx", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
+  }
+}

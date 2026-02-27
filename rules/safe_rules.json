@@ -1,0 +1,32 @@
+{
+  "temp_patterns": [
+    {"pattern": "%TEMP%\\*", "description": "系统临时文件"},
+    {"pattern": "%LOCALAPPDATA%\\Temp\\*", "description": "用户临时文件"},
+    {"pattern": "%WINDIR%\\Temp\\*", "description": "Windows 临时文件"}
+  ],
+  "cache_patterns": [
+    {"pattern": "%LOCALAPPDATA%\\*\\Cache\\*", "description": "浏览器缓存"},
+    {"pattern": "%LOCALAPPDATA%\\*\\GPUCache\\*", "description": "GPU 缓存"},
+    {"pattern": "%LOCALAPPDATA%\\*\\Code Cache\\*", "description": "代码缓存"},
+    {"pattern": "%APPDATA%\\*\\Cache\\*", "description": "应用缓存"}
+  ],
+  "dev_caches": [
+    {"pattern": "**\\node_modules", "description": "Node.js 依赖"},
+    {"pattern": "**\\.venv", "description": "Python 虚拟环境"},
+    {"pattern": "**\\venv", "description": "Python 虚拟环境"},
+    {"pattern": "**\\__pycache__", "description": "Python 缓存"},
+    {"pattern": "**\\.cache", "description": "通用缓存目录"},
+    {"pattern": "**\\.pytest_cache", "description": "pytest 缓存"},
+    {"pattern": "**\\.mypy_cache", "description": "mypy 缓存"},
+    {"pattern": "**\\.tox", "description": "tox 缓存"},
+    {"pattern": "**\\dist", "description": "构建输出"},
+    {"pattern": "**\\build", "description": "构建输出"},
+    {"pattern": "%LOCALAPPDATA%\\NuGet\\Cache\\*", "description": "NuGet 缓存"},
+    {"pattern": "%LOCALAPPDATA%\\pip\\Cache\\*", "description": "pip 缓存"},
+    {"pattern": "%LOCALAPPDATA%\\npm-cache\\*", "description": "npm 缓存"}
+  ],
+  "log_patterns": [
+    {"pattern": "%LOCALAPPDATA%\\CrashDumps\\*", "description": "崩溃转储"},
+    {"pattern": "**\\*.log", "description": "日志文件"}
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "applications": [
+    {
+      "name": "Visual Studio Code",
+      "folder_names": ["Code", ".vscode"],
+      "paths": {
+        "appdata": ["Code"],
+        "localappdata": ["Programs\\Microsoft VS Code", "Microsoft VS Code"]
+      }
+    },
+    {
+      "name": "微信",
+      "folder_names": ["WeChat", "Tencent\\WeChat"],
+      "paths": {
+        "appdata": ["Tencent\\WeChat"],
+        "localappdata": ["Tencent\\WeChat"]
+      }
+    },
+    {
+      "name": "QQ",
+      "folder_names": ["QQ", "Tencent\\QQ"],
+      "paths": {
+        "appdata": ["Tencent\\QQ"],
+        "localappdata": ["Tencent\\QQ"]
+      }
+    },
+    {
+      "name": "Chrome",
+      "folder_names": ["Google\\Chrome"],
+      "paths": {
+        "localappdata": ["Google\\Chrome"]
+      }
+    },
+    {
+      "name": "Edge",
+      "folder_names": ["Microsoft\\Edge"],
+      "paths": {
+        "localappdata": ["Microsoft\\Edge"]
+      }
+    },
+    {
+      "name": "Node.js",
+      "folder_names": ["npm", "nodejs"],
+      "paths": {
+        "appdata": ["npm"],
+        "localappdata": ["Programs\\nodejs", "nodejs"]
+      }
+    },
+    {
+      "name": "Python",
+      "folder_names": ["Python", "pypa"],
+      "paths": {
+        "localappdata": ["Programs\\Python", "pip", "pypa"]
+      }
+    },
+    {
+      "name": "Steam",
+      "folder_names": ["Steam"],
+      "paths": {
+        "localappdata": ["Steam"]
+      }
+    },
+    {
+      "name": "Minecraft",
+      "folder_names": [".minecraft", "Minecraft"],
+      "paths": {
+        "appdata": [".minecraft"],
+        "localappdata": ["Packages\\Microsoft.4297127D64EC6_8wekyb3d8bbwe"]
+      }
+    }
+  ],
+  "patterns": {
+    "cache_dirs": ["Cache", "GPUCache", "Code Cache", "ShaderCache", "cache", ".cache"],
+    "config_dirs": ["config", "Config", "settings", "Settings", ".config"],
+    "log_dirs": ["logs", "Logs", "log"]
+  }
+}
