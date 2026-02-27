@@ -5,6 +5,7 @@ This module provides a TreeView widget for displaying scan results
 grouped by risk level with checkbox-like selection.
 """
 
+import os
 import tkinter as tk
 from tkinter import ttk
 from typing import Callable, Dict, List, Optional
@@ -19,7 +20,7 @@ class ScanView(ttk.Frame):
     Features:
     - Grouped by risk level (SAFE, SUGGEST, CAUTION)
     - Checkbox-like visual selection
-    - Columns: Name, Size, Source, Risk
+    - Columns: Checkbox, Name, Type, Size, Source, Risk
     - Event callbacks for selection and check changes
     """
 
@@ -86,10 +87,10 @@ class ScanView(ttk.Frame):
         x_scroll = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL)
         x_scroll.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # Treeview
+        # Treeview - now with type column
         self.tree = ttk.Treeview(
             tree_frame,
-            columns=("name", "size", "source", "risk"),
+            columns=("name", "type", "size", "source", "risk"),
             show="tree headings",
             yscrollcommand=y_scroll.set,
             xscrollcommand=x_scroll.set,
@@ -97,17 +98,19 @@ class ScanView(ttk.Frame):
         )
 
         # Configure columns
-        self.tree.heading("#0", text="")  # Checkbox column
+        self.tree.heading("#0", text="勾选")  # Checkbox column
         self.tree.heading("name", text="名称")
+        self.tree.heading("type", text="类型")
         self.tree.heading("size", text="大小")
         self.tree.heading("source", text="来源")
         self.tree.heading("risk", text="风险")
 
-        self.tree.column("#0", width=40, minwidth=40, stretch=False)
+        self.tree.column("#0", width=50, minwidth=50, stretch=False, anchor=tk.CENTER)
         self.tree.column("name", width=200, minwidth=100)
+        self.tree.column("type", width=60, minwidth=50, anchor=tk.CENTER)
         self.tree.column("size", width=80, minwidth=60, anchor=tk.E)
         self.tree.column("source", width=120, minwidth=80)
-        self.tree.column("risk", width=100, minwidth=60)
+        self.tree.column("risk", width=80, minwidth=60)
 
         self.tree.pack(fill=tk.BOTH, expand=True)
 
@@ -125,6 +128,15 @@ class ScanView(ttk.Frame):
         self.tree.bind("<<TreeviewSelect>>", self._on_tree_select)
         self.tree.bind("<Double-1>", self._on_double_click)
         self.tree.bind("<space>", self._on_space_key)
+        self.tree.bind("<Button-1>", self._on_click)
+
+    def _on_click(self, event):
+        """Handle click event on checkbox column."""
+        region = self.tree.identify("region", event.x, event.y)
+        if region == "tree":
+            item_id = self.tree.identify_row(event.y)
+            if item_id:
+                self._toggle_item(item_id)
 
     def _on_tree_select(self, event):
         """Handle tree selection event."""
@@ -187,7 +199,7 @@ class ScanView(ttk.Frame):
         if not result:
             return
 
-        check_char = "[x]" if checked else "[ ]"
+        check_char = "☑" if checked else "☐"
         risk_config = self.RISK_CONFIG[result.risk_level]
 
         # Get actual size if available
@@ -198,7 +210,6 @@ class ScanView(ttk.Frame):
             size_str = f"{result.confidence * 100:.0f}%"
 
         # Get folder name from path
-        import os
         folder_name = os.path.basename(path) if path else result.source_name
 
         self.tree.item(
@@ -206,6 +217,7 @@ class ScanView(ttk.Frame):
             text=check_char,
             values=(
                 folder_name,
+                "文件夹",  # Type: always folder
                 size_str,
                 result.source_name,
                 risk_config["label"],
@@ -267,7 +279,7 @@ class ScanView(ttk.Frame):
                     "",
                     tk.END,
                     text=f"{config['icon']} {config['label']} (0/{count})",
-                    values=("", "", "", ""),
+                    values=("", "", "", "", ""),
                     tags=("group",),
                     open=True,
                 )
@@ -287,7 +299,7 @@ class ScanView(ttk.Frame):
         if checked:
             self._checked_paths.add(result.path)
 
-        check_char = "[x]" if checked else "[ ]"
+        check_char = "☑" if checked else "☐"
         config = self.RISK_CONFIG[result.risk_level]
 
         # Get actual size if available, otherwise use confidence as percentage display
@@ -298,7 +310,6 @@ class ScanView(ttk.Frame):
             size_str = f"{result.confidence * 100:.0f}%"
 
         # Get folder name from path
-        import os
         folder_name = os.path.basename(result.path) if result.path else result.source_name
 
         item_id = self.tree.insert(
@@ -307,6 +318,7 @@ class ScanView(ttk.Frame):
             text=check_char,
             values=(
                 folder_name,
+                "文件夹",  # Type: always folder
                 size_str,
                 result.source_name,
                 config["label"],
@@ -337,7 +349,7 @@ class ScanView(ttk.Frame):
                 "",
                 tk.END,
                 text=f"{config['icon']} {config['label']} (0/{count})",
-                values=("", "", "", ""),
+                values=("", "", "", "", ""),
                 tags=("group",),
                 open=True,
             )
