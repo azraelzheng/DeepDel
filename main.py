@@ -10,8 +10,6 @@ import os
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-import tkinter as tk
-from tkinter import ttk
 
 def main():
     """主入口"""
@@ -22,19 +20,13 @@ def main():
     except:
         pass
 
-    # Create main window
-    root = tk.Tk()
-
-    # Set style
-    style = ttk.Style()
-    style.theme_use('clam')
-
     # Create application
     from ui.main_window import MainWindow
-    app = MainWindow(root)
+    app = MainWindow()
 
     # Run
-    root.mainloop()
+    app.root.mainloop()
+
 
 if __name__ == '__main__':
     main()
