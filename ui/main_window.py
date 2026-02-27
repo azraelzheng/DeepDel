@@ -56,7 +56,7 @@ class MainWindow:
 
         # Create main window
         self.root = tk.Tk()
-        self.root.title("DeepDel - Intelligent Folder Cleaner")
+        self.root.title("DeepDel - 深度清理工具")
         self.root.geometry("1000x700")
         self.root.minsize(800, 600)
 
@@ -116,7 +116,7 @@ class MainWindow:
         middle_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
         # Left panel - Scan View
-        left_frame = ttk.LabelFrame(middle_frame, text="Scan Results")
+        left_frame = ttk.LabelFrame(middle_frame, text="扫描结果")
         left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 2))
 
         self.scan_view = ScanView(
@@ -127,7 +127,7 @@ class MainWindow:
         self.scan_view.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
         # Right panel - Detail Panel
-        right_frame = ttk.LabelFrame(middle_frame, text="Details")
+        right_frame = ttk.LabelFrame(middle_frame, text="详细信息")
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(2, 0))
 
         self.detail_panel = DetailPanel(
@@ -151,7 +151,7 @@ class MainWindow:
 
         self.btn_start = ttk.Button(
             button_frame,
-            text="Start Scan",
+            text="开始扫描",
             style="Toolbar.TButton",
             command=self._start_scan,
         )
@@ -159,7 +159,7 @@ class MainWindow:
 
         self.btn_stop = ttk.Button(
             button_frame,
-            text="Stop",
+            text="停止",
             style="Toolbar.TButton",
             command=self._stop_scan,
             state=tk.DISABLED,
@@ -168,7 +168,7 @@ class MainWindow:
 
         self.btn_settings = ttk.Button(
             button_frame,
-            text="Scan Settings",
+            text="扫描设置",
             style="Toolbar.TButton",
             command=self._open_settings,
         )
@@ -188,7 +188,7 @@ class MainWindow:
         )
         self.progress_bar.pack(side=tk.LEFT, padx=(0, 5))
 
-        self.status_label = ttk.Label(progress_frame, text="Ready")
+        self.status_label = ttk.Label(progress_frame, text="就绪")
         self.status_label.pack(side=tk.LEFT)
 
     def _build_bottom_panel(self, parent: tk.Widget):
@@ -202,7 +202,7 @@ class MainWindow:
 
         self.stats_label = ttk.Label(
             stats_frame,
-            text="Selected: 0 items | Space to free: 0 B",
+            text="已选中: 0 项 | 可释放: 0 B",
         )
         self.stats_label.pack(side=tk.LEFT)
 
@@ -212,7 +212,7 @@ class MainWindow:
 
         self.btn_select_all = ttk.Button(
             action_frame,
-            text="Select All",
+            text="全选",
             style="Action.TButton",
             command=self._select_all,
         )
@@ -220,7 +220,7 @@ class MainWindow:
 
         self.btn_deselect_all = ttk.Button(
             action_frame,
-            text="Deselect All",
+            text="全不选",
             style="Action.TButton",
             command=self._deselect_all,
         )
@@ -228,7 +228,7 @@ class MainWindow:
 
         self.btn_delete = ttk.Button(
             action_frame,
-            text="Delete Selected",
+            text="删除选中",
             style="Action.TButton",
             command=self._delete_selected,
         )
@@ -242,8 +242,8 @@ class MainWindow:
         """Handle window close event."""
         if self._is_scanning:
             if messagebox.askyesno(
-                "Scan in Progress",
-                "A scan is in progress. Stop scanning and exit?",
+                "扫描进行中",
+                "正在扫描中，确定要停止扫描并退出吗？",
             ):
                 self.scanner.stop()
                 self.root.destroy()
@@ -266,7 +266,7 @@ class MainWindow:
 
         # Update UI state
         self._set_scanning_state(True)
-        self._update_status("Scanning...")
+        self._update_status("正在扫描...")
 
         # Start scan in background thread
         self._scan_thread = threading.Thread(
@@ -282,7 +282,7 @@ class MainWindow:
             scan_paths = self.config.get_expanded_scan_paths()
 
             if not scan_paths:
-                self.root.after(0, lambda: self._update_status("No scan paths configured"))
+                self.root.after(0, lambda: self._update_status("未配置扫描路径"))
                 self.root.after(0, lambda: self._set_scanning_state(False))
                 return
 
@@ -296,7 +296,7 @@ class MainWindow:
                 self.root.after(0, lambda p=progress: self._update_progress(p))
                 self.root.after(
                     0,
-                    lambda path=path: self._update_status(f"Scanning: {path}"),
+                    lambda path=path: self._update_status(f"正在扫描: {path}"),
                 )
 
                 # Scan the path
@@ -352,7 +352,7 @@ class MainWindow:
         """Handle scan completion."""
         self._set_scanning_state(False)
         self._update_progress(100)
-        self._update_status(f"Scan complete: {self._total_scanned} folders found")
+        self._update_status(f"扫描完成: 发现 {self._total_scanned} 个文件夹")
 
         # Build size dict from scan results
         sizes = {sr.path: sr.size_bytes for sr in self._scan_results}
@@ -367,14 +367,14 @@ class MainWindow:
     def _handle_scan_error(self, error: str):
         """Handle scan error."""
         self._set_scanning_state(False)
-        self._update_status(f"Error: {error}")
-        messagebox.showerror("Scan Error", f"An error occurred during scanning:\n{error}")
+        self._update_status(f"错误: {error}")
+        messagebox.showerror("扫描错误", f"扫描过程中发生错误:\n{error}")
 
     def _stop_scan(self):
         """Stop the current scan operation."""
         if self._is_scanning:
             self.scanner.stop()
-            self._update_status("Stopping scan...")
+            self._update_status("正在停止扫描...")
 
     def _set_scanning_state(self, is_scanning: bool):
         """Update UI state for scanning/not scanning."""
@@ -417,8 +417,8 @@ class MainWindow:
             size_str = f"{size / (1024 * 1024 * 1024):.2f} GB"
 
         self.stats_label.config(
-            text=f"Selected: {stats['selected']} / {stats['total']} items | "
-                 f"Space to free: {size_str}"
+            text=f"已选中: {stats['selected']} / {stats['total']} 项 | "
+                 f"可释放: {size_str}"
         )
 
     # ==================== Event Handlers ====================
@@ -449,15 +449,15 @@ class MainWindow:
             else:
                 subprocess.run(["xdg-open", path])
         else:
-            messagebox.showwarning("Not Found", f"Path does not exist:\n{path}")
+            messagebox.showwarning("未找到", f"路径不存在:\n{path}")
 
     def _on_ask_ai(self, path: str):
         """Handle ask AI request."""
         if not self.ai_analyzer:
             messagebox.showinfo(
-                "AI Not Available",
-                "AI analysis is not enabled or configured.\n"
-                "Please check your configuration.",
+                "AI 不可用",
+                "AI 分析未启用或未配置。\n"
+                "请检查您的设置。",
             )
             return
 
@@ -469,17 +469,17 @@ class MainWindow:
                 break
 
         if not scan_result:
-            messagebox.showwarning("Not Found", "Scan result not found for this path.")
+            messagebox.showwarning("未找到", "未找到此路径的扫描结果。")
             return
 
         # Get current classification
         classified = self._classified_results.get(path)
         if not classified:
-            messagebox.showwarning("Not Found", "Classification not found for this path.")
+            messagebox.showwarning("未找到", "未找到此路径的分类结果。")
             return
 
         # Run AI analysis in background
-        self._update_status("Analyzing with AI...")
+        self._update_status("正在 AI 分析...")
 
         def run_ai_analysis():
             try:
@@ -501,7 +501,7 @@ class MainWindow:
                     # Update UI on main thread
                     self.root.after(0, lambda: self._ai_analysis_complete(path, ai_result))
                 else:
-                    self.root.after(0, lambda: self._ai_analysis_failed("AI returned no result"))
+                    self.root.after(0, lambda: self._ai_analysis_failed("AI 未返回结果"))
 
             except Exception as e:
                 self.root.after(0, lambda: self._ai_analysis_failed(str(e)))
@@ -511,23 +511,29 @@ class MainWindow:
 
     def _ai_analysis_complete(self, path: str, ai_result: AIAnalysisResult):
         """Handle AI analysis completion."""
-        self._update_status("AI analysis complete")
+        self._update_status("AI 分析完成")
 
         # Update the detail panel if this path is selected
         if path in self._classified_results:
             self.detail_panel.update_ai_result(self._classified_results[path])
 
+        suggestion_text = {
+            "can_delete": "可以删除",
+            "caution": "需要谨慎",
+            "keep": "建议保留"
+        }.get(ai_result.suggestion, ai_result.suggestion)
+
         messagebox.showinfo(
-            "AI Analysis Complete",
-            f"AI Suggestion: {ai_result.suggestion}\n"
-            f"Confidence: {ai_result.confidence * 100:.1f}%\n\n"
-            f"Reason: {ai_result.reason}",
+            "AI 分析完成",
+            f"AI 建议: {suggestion_text}\n"
+            f"置信度: {ai_result.confidence * 100:.1f}%\n\n"
+            f"理由: {ai_result.reason}",
         )
 
     def _ai_analysis_failed(self, error: str):
         """Handle AI analysis failure."""
-        self._update_status("AI analysis failed")
-        messagebox.showwarning("AI Analysis Failed", f"Could not complete AI analysis:\n{error}")
+        self._update_status("AI 分析失败")
+        messagebox.showwarning("AI 分析失败", f"无法完成 AI 分析:\n{error}")
 
     def _select_all(self):
         """Select all items in the scan view."""
@@ -550,7 +556,7 @@ class MainWindow:
         selected_results = self.scan_view.get_selected_results()
 
         if not selected_results:
-            messagebox.showinfo("No Selection", "Please select items to delete.")
+            messagebox.showinfo("未选择", "请选择要删除的项目。")
             return
 
         # Calculate total size
@@ -566,12 +572,12 @@ class MainWindow:
 
         # Confirm deletion
         message = (
-            f"Are you sure you want to delete {len(selected_results)} items?\n\n"
-            f"Total space to free: {size_str}\n\n"
-            f"This action cannot be undone."
+            f"确定要删除 {len(selected_results)} 个项目吗？\n\n"
+            f"可释放空间: {size_str}\n\n"
+            f"此操作无法撤销。"
         )
 
-        if not messagebox.askyesno("Confirm Deletion", message):
+        if not messagebox.askyesno("确认删除", message):
             return
 
         # Perform deletion
@@ -598,7 +604,7 @@ class MainWindow:
                         failed_paths.append(result.path)
                 else:
                     failed_count += 1
-                    failed_paths.append(f"{result.path} (not found)")
+                    failed_paths.append(f"{result.path} (未找到)")
             except Exception as e:
                 failed_count += 1
                 failed_paths.append(f"{result.path} ({str(e)})")
@@ -610,14 +616,14 @@ class MainWindow:
         # Show result
         if failed_count > 0:
             messagebox.showwarning(
-                "Deletion Complete",
-                f"Deleted: {deleted_count}\nFailed: {failed_count}\n\n"
-                f"Failed paths:\n" + "\n".join(failed_paths[:5]),
+                "删除完成",
+                f"已删除: {deleted_count}\n失败: {failed_count}\n\n"
+                f"失败路径:\n" + "\n".join(failed_paths[:5]),
             )
         else:
             messagebox.showinfo(
-                "Deletion Complete",
-                f"Successfully deleted {deleted_count} items.",
+                "删除完成",
+                f"成功删除 {deleted_count} 个项目。",
             )
 
         # Record decisions to learner (in real implementation)
@@ -669,8 +675,6 @@ class MainWindow:
 
     def _open_settings(self):
         """Open the settings dialog."""
-        from ui.settings_dialog import show_settings_dialog
-
         def on_save():
             """Called when settings are saved."""
             # Save to file

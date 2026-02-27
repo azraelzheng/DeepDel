@@ -27,19 +27,19 @@ class ScanView(ttk.Frame):
     RISK_CONFIG = {
         RiskLevel.SAFE: {
             "icon": "[+]",
-            "label": "Safe to Delete",
+            "label": "安全删除",
             "tag": "safe",
             "foreground": "#228B22",  # Forest Green
         },
         RiskLevel.SUGGEST: {
             "icon": "[~]",
-            "label": "Suggested Deletion",
+            "label": "建议删除",
             "tag": "suggest",
             "foreground": "#DAA520",  # Goldenrod
         },
         RiskLevel.CAUTION: {
             "icon": "[!]",
-            "label": "Handle with Caution",
+            "label": "谨慎处理",
             "tag": "caution",
             "foreground": "#DC143C",  # Crimson
         },
@@ -72,7 +72,7 @@ class ScanView(ttk.Frame):
     def _setup_ui(self):
         """Set up the UI components."""
         # Title label
-        title_label = ttk.Label(self, text="Scan Results", font=("", 11, "bold"))
+        title_label = ttk.Label(self, text="扫描结果", font=("", 11, "bold"))
         title_label.pack(fill=tk.X, padx=5, pady=(5, 2))
 
         # Create Treeview with scrollbar
@@ -98,10 +98,10 @@ class ScanView(ttk.Frame):
 
         # Configure columns
         self.tree.heading("#0", text="")  # Checkbox column
-        self.tree.heading("name", text="Name")
-        self.tree.heading("size", text="Size")
-        self.tree.heading("source", text="Source")
-        self.tree.heading("risk", text="Risk")
+        self.tree.heading("name", text="名称")
+        self.tree.heading("size", text="大小")
+        self.tree.heading("source", text="来源")
+        self.tree.heading("risk", text="风险")
 
         self.tree.column("#0", width=40, minwidth=40, stretch=False)
         self.tree.column("name", width=200, minwidth=100)
